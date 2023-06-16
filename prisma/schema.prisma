@@ -11,14 +11,14 @@ datasource db {
 }
 
 model Client {
-  id       String  @id @default(uuid())
-  name     String
-  lastName String
-  email    String?
-  phone    String  @unique
+  id        String @id @default(uuid())
+  name      String
+  last_name String
+  email     String @unique
+  phone     String @unique
 
-  Address Address?
-  Order   Order[]
+  adderss Address?
+  orders  Order[]
 
   @@map("clients")
 }
@@ -29,10 +29,10 @@ model Address {
   number   String
   district String
   city     String
-  zipCode  String
+  zipcode  String
 
   client_id String @unique
-  client    Client @relation(fields: [client_id], references: [id])
+  client    Client @relation(fields: [client_id], references: [id], onDelete: Cascade)
 
   @@map("addresses")
 }
@@ -49,10 +49,10 @@ model Dish {
   description String
   kind        DishType
 
-  Menu   Menu?   @relation(fields: [menuId], references: [id])
-  menuId String?
+  menu    Menu?   @relation(fields: [menu_id], references: [id])
+  menu_id String?
 
-  DishOrder DishOrder[]
+  dish_order DishOrder[]
 
   @@map("dishes")
 }
