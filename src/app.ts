@@ -1,0 +1,24 @@
+import { ZodError } from 'zod'
+import { env } from './env'
+import fastify from 'fastify'
+
+export const app = fastify()
+
+
+// Register error handler
+app.setErrorHandler((error, request, reply) => {
+  if (error instanceof ZodError) {
+    console.error(error.issues)
+    return reply
+      .status(400)
+      .send({ message: 'Validation Error!', issues: error.format() })
+  }
+
+  if (env.NODE_ENV !== 'production') {
+    console.error(error)
+  } else {
+    // TODO: Send error to Sentry/Datadog/NewRelic/etc
+  }
+
+  return reply.status(500).send({ message: 'Internal Server Error!' })
+})
