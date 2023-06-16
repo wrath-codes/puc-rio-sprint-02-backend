@@ -29,4 +29,14 @@ export class InMemoryClientsRepository implements ClientsRepository {
 
     return client;
   }
+
+  async findById(id: string): Promise<Client | null> {
+    const client = this.clients.find((client) => client.id === id);
+
+    if (!client) {
+      return null;
+    }
+
+    return client;
+  }
 }
