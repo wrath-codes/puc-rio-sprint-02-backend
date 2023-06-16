@@ -9,3 +9,88 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Client {
+  id       String  @id @default(uuid())
+  name     String
+  lastName String
+  email    String?
+  phone    String  @unique
+
+  Address Address?
+  Order   Order[]
+
+  @@map("clients")
+}
+
+model Address {
+  id       String @id @default(uuid())
+  street   String
+  number   String
+  district String
+  city     String
+  zipCode  String
+
+  client_id String @unique
+  client    Client @relation(fields: [client_id], references: [id])
+
+  @@map("addresses")
+}
+
+enum DishType {
+  MEAT
+  CHICKEN
+  VEGETARIAN
+}
+
+model Dish {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  kind        DishType
+
+  Menu   Menu?   @relation(fields: [menuId], references: [id])
+  menuId String?
+
+  DishOrder DishOrder[]
+
+  @@map("dishes")
+}
+
+model Menu {
+  id     String @id @default(uuid())
+  dishes Dish[]
+
+  created_at DateTime @default(now())
+
+  @@map("menus")
+}
+
+model DishOrder {
+  id       String @id @default(uuid())
+  quantity Int
+
+  dish_id String
+  dish    Dish   @relation(fields: [dish_id], references: [id])
+
+  order_id String
+  order    Order  @relation(fields: [order_id], references: [id])
+
+  @@map("dishes_orders")
+}
+
+model Order {
+  id        String @id @default(uuid())
+  client_id String
+  client    Client @relation(fields: [client_id], references: [id])
+
+  dishes DishOrder[]
+
+  note     String?
+  delivery Boolean
+
+  total      Int
+  created_at DateTime @default(now())
+
+  @@map("orders")
+}
