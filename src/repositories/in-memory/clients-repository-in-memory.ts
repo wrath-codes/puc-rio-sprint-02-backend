@@ -10,12 +10,22 @@ export class InMemoryClientsRepository implements ClientsRepository {
     const client = {
       id: data.id || randomUUID(),
       name: data.name,
-      lastName: data.lastName,
-      email: data.email || undefined,
+      last_name: data.last_name,
+      email: data.email,
       phone: data.phone,
     } as Client;
 
     this.clients.push(client);
+
+    return client;
+  }
+
+  async findByEmail(email: string): Promise<Client | null> {
+    const client = this.clients.find((client) => client.email === email);
+
+    if (!client) {
+      return null;
+    }
 
     return client;
   }
