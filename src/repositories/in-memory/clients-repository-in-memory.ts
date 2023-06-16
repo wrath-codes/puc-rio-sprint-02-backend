@@ -32,7 +32,7 @@ export class InMemoryClientsRepository implements ClientsRepository {
     return client;
   }
 
-  async update(id: string, data: Prisma.ClientUncheckedUpdateInput): Promise<Client> {
+  async update(id: string, data: Prisma.ClientUncheckedUpdateInput): Promise<Client | null> {
     const client = this.clients.find((client) => client.id === id);
     if (!client) return null;
 
@@ -50,5 +50,12 @@ export class InMemoryClientsRepository implements ClientsRepository {
     });
 
     return updatedClient;
+  }
+
+  async delete(id: string): Promise<void | null> {
+    const client = this.clients.find((client) => client.id === id);
+    if (!client) return null;
+
+    this.clients = this.clients.filter((client) => client.id !== id);
   }
 }
