@@ -58,4 +58,8 @@ export class InMemoryClientsRepository implements ClientsRepository {
 
     this.clients = this.clients.filter((client) => client.id !== id);
   }
+
+  async list(): Promise<Client[]> {
+    return this.clients;
+  }
 }

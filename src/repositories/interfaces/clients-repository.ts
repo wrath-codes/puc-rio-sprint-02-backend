@@ -6,5 +6,6 @@ export interface ClientsRepository {
   findById(id: string): Promise<Client | null>;
   update(id: string, data: Prisma.ClientUncheckedUpdateInput): Promise<Client | null>;
   delete(id: string): Promise<void | null>;
+  list(): Promise<Client[]>;
 }
 
