@@ -14,6 +14,7 @@ export class InMemoryAddressesRepository implements AddressesRepository {
       complement: data.complement,
       district: data.district,
       city: data.city,
+      zipcode: data.zipcode,
       client_id: data.client_id,
     } as Address;
 
@@ -42,8 +43,10 @@ export class InMemoryAddressesRepository implements AddressesRepository {
       ...address,
       street: data.street || address.street,
       number: data.number || address.number,
+      complement: data.complement || address.complement,
       district: data.district || address.district,
       city: data.city || address.city,
+      zipcode: data.zipcode || address.zipcode,
     } as Address;
 
     this.addresses = this.addresses.map((address) => {

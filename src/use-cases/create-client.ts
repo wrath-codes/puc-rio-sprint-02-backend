@@ -1,6 +1,8 @@
-import { Client, Address } from "@prisma/client";
-import { ClientsRepository } from "@/repositories/interfaces/clients-repository";
+import { Address, Client } from "@prisma/client";
+
 import { AddressesRepository } from "@/repositories/interfaces/addresses-repository";
+import { ClientAlreadyExistsError } from "./errors/client-already-exists";
+import { ClientsRepository } from "@/repositories/interfaces/clients-repository";
 
 interface CreateClientRequest {
   client: {
@@ -14,8 +16,8 @@ interface CreateClientRequest {
     street: string;
     number: string;
     complement?: string;
+    district: string;
     city: string;
-    state: string;
     zipcode: string;
   }
 }
@@ -38,7 +40,7 @@ export class CreateClientUseCase {
     const clientAlreadyExists = await this.clientsRepository.findByEmail(client.email);
 
     if (clientAlreadyExists) {
-      throw new Error("Client already exists");
+      throw new ClientAlreadyExistsError();
     }
 
     const createdClient = await this.clientsRepository.create({
@@ -51,10 +53,16 @@ export class CreateClientUseCase {
     const createdAddress = await this.addressesRepository.create({
       street: address.street,
       number: address.number,
-      complement: address.complement,
+      complement: address.complement || undefined,
       city: address.city,
-      state: address.state,
+      district: address.district,
       zipcode: address.zipcode,
       client_id: createdClient.id,
     }) as Address;
 
+    return {
+      client: createdClient,
+      address: createdAddress,
+    };
+  }
+} 
