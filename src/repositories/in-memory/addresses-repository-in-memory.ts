@@ -11,6 +11,7 @@ export class InMemoryAddressesRepository implements AddressesRepository {
       id: data.id || randomUUID(),
       street: data.street,
       number: data.number,
+      complement: data.complement,
       district: data.district,
       city: data.city,
       client_id: data.client_id,
