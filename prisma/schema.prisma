@@ -24,12 +24,13 @@ model Client {
 }
 
 model Address {
-  id       String @id @default(uuid())
-  street   String
-  number   String
-  district String
-  city     String
-  zipcode  String
+  id         String @id @default(uuid())
+  street     String
+  number     String
+  complement String
+  district   String
+  city       String
+  zipcode    String
 
   client_id String @unique
   client    Client @relation(fields: [client_id], references: [id], onDelete: Cascade)
