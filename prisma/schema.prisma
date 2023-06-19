@@ -24,10 +24,10 @@ model Client {
 }
 
 model Address {
-  id         String @id @default(uuid())
+  id         String  @id @default(uuid())
   street     String
   number     String
-  complement String
+  complement String?
   district   String
   city       String
   zipcode    String
