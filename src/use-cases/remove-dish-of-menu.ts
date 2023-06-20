@@ -33,6 +33,7 @@ export class RemoveDishOfMenuUseCase {
     }
 
     await this.dishesRepository.removeDishFromMenu(dish_id, menu_id);
+    await this.dishesRepository.delete(dish_id);
 
     return {
       dish,
