@@ -10,7 +10,7 @@ export class InMemoryMenusRepository implements MenusRepository {
   async create(data: Prisma.MenuUncheckedCreateInput): Promise<Menu> {
     const menu = {
       id: data.id || randomUUID(),
-      created_at: new Date(),
+      created_at: data.created_at || new Date(),
     } as Menu;
 
     this.menus.push(menu);

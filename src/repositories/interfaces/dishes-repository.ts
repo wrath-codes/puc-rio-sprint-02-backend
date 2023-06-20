@@ -7,4 +7,6 @@ export interface DishesRepository {
   update(id: string, data: Prisma.DishUncheckedUpdateInput): Promise<Dish | null>;
   delete(id: string): Promise<void | null>;
   list(): Promise<Dish[]>;
+  addDishToMenu(dishId: string, menuId: string): Promise<void | null>;
+  removeDishFromMenu(dishId: string, menuId: string): Promise<void | null>;
 }
