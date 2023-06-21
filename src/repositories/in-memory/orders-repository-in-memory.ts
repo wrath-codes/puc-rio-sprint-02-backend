@@ -27,6 +27,11 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     return order;
   }
 
+  async findByClientId(client_id: string): Promise<Order[]> {
+    const orders = this.orders.filter((order) => order.client_id === client_id);
+    return orders;
+  }
+
   async findByDelivery(delivery: boolean): Promise<Order[]> {
     const orders = this.orders.filter((order) => order.delivery === delivery);
     return orders;

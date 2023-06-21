@@ -35,6 +35,12 @@ export class DishOrdersRepositoryInMemory implements DishOrdersRepository {
     return dishOrders;
   }
 
+  async findByOrderIdAndDishId(order_id: string, dish_id: string): Promise<DishOrder | null> {
+    const dishOrder = this.dishOrders.find(dishOrder => dishOrder.order_id === order_id && dishOrder.dish_id === dish_id);
+    if (!dishOrder) return null;
+    return dishOrder;
+  }
+
   async update(id: string, quantity: number): Promise<DishOrder | null> {
     const dishOrder = this.dishOrders.find(dishOrder => dishOrder.id === id);
     if (!dishOrder) return null;
