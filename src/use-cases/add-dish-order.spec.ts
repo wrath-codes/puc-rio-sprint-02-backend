@@ -104,4 +104,30 @@ describe("Add Dish Order Use Case", () => {
     })).rejects.toBeInstanceOf(DishOrderAlreadyExistsError);
   })
 
+  it("should add the dish order quantity to the order total", async () => {
+    const dish = await dishesRepository.create({
+      menu_id: "menu_id",
+      title: "Example Dish",
+      description: "Example Description",
+      kind: "MEAT",
+    });
+
+    const order = await ordersRepository.create({
+      client_id: "client_id",
+      delivery: true,
+      note: "Example Note",
+      total: 0,
+    });
+
+    await sut.execute({
+      order_id: order.id,
+      dish_id: dish.id,
+      quantity: 5,
+    });
+
+    const updatedOrder = await ordersRepository.findById(order.id);
+
+    expect(updatedOrder!.total).toBe(5);
+  })
+
 });
