@@ -57,6 +57,13 @@ export class InMemoryDishesRepository implements DishesRepository {
     this.dishes = this.dishes.filter((dish) => dish.id !== id);
   }
 
+  async deleteAllOfMenu(menuId: string): Promise<void | null> {
+    const dishes = this.dishes.filter((dish) => dish.menu_id === menuId);
+    if (!dishes) return null;
+
+    this.dishes = this.dishes.filter((dish) => dish.menu_id !== menuId);
+  }
+
   async list(): Promise<Dish[]> {
     return this.dishes;
   }
@@ -94,6 +101,8 @@ export class InMemoryDishesRepository implements DishesRepository {
 
     return;
   }
+
+
 
 
 }
