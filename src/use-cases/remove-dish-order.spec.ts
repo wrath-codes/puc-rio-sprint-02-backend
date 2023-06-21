@@ -56,4 +56,96 @@ describe("Remove Dish Order Use Case", () => {
 
     expect(updatedOrder.total).toBe(0);
   });
+
+  it("should not be able to remove a dish order if order does not exist", async () => {
+    const dish = await dishesRepository.create({
+      menu_id: "menu_id",
+      title: "Example Dish",
+      description: "Example Description",
+      kind: "MEAT",
+    });
+
+    const order = await ordersRepository.create({
+      client_id: "client_id",
+      delivery: true,
+      note: "Example Note",
+      total: 0,
+    });
+
+    const dishOrder = await dishOrdersRepository.create({
+      order_id: order.id,
+      dish_id: dish.id,
+      quantity: 1,
+    });
+
+    await ordersRepository.addTotal(order.id, dishOrder.quantity);
+
+    await expect(sut.execute({
+      order_id: "invalid_order_id",
+      dish_id: dish.id,
+    })).rejects.toBeInstanceOf(OrderNotFoundError);
+  })
+
+  it("should not be able to remove a dish order if dish does not exist", async () => {
+    const dish = await dishesRepository.create({
+      menu_id: "menu_id",
+      title: "Example Dish",
+      description: "Example Description",
+      kind: "MEAT",
+    });
+
+    const order = await ordersRepository.create({
+      client_id: "client_id",
+      delivery: true,
+      note: "Example Note",
+      total: 0,
+    });
+
+    const dishOrder = await dishOrdersRepository.create({
+      order_id: order.id,
+      dish_id: dish.id,
+      quantity: 1,
+    });
+
+    await ordersRepository.addTotal(order.id, dishOrder.quantity);
+
+    await expect(sut.execute({
+      order_id: order.id,
+      dish_id: "invalid_dish_id",
+    })).rejects.toBeInstanceOf(DishNotFoundError);
+  })
+
+  it("should not be able to remove a dish order if dish order does not exist", async () => {
+    const dish = await dishesRepository.create({
+      menu_id: "menu_id",
+      title: "Example Dish",
+      description: "Example Description",
+      kind: "MEAT",
+    });
+
+    const order = await ordersRepository.create({
+      client_id: "client_id",
+      delivery: true,
+      note: "Example Note",
+      total: 0,
+    });
+
+    const dishOrder = await dishOrdersRepository.create({
+      order_id: order.id,
+      dish_id: dish.id,
+      quantity: 1,
+    });
+
+    await ordersRepository.addTotal(order.id, dishOrder.quantity);
+
+    await sut.execute({
+      order_id: order.id,
+      dish_id: dish.id,
+    });
+
+    await expect(sut.execute({
+      order_id: order.id,
+      dish_id: dish.id,
+    })).rejects.toBeInstanceOf(DishOrderNotFoundError);
+  })
 });
