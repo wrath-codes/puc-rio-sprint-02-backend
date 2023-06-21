@@ -6,7 +6,7 @@ export interface OrdersRepository {
   findByDelivery(delivery: boolean): Promise<Order[]>;
   update(id: string, data: Prisma.OrderUncheckedUpdateInput): Promise<Order | null>;
   delete(id: string): Promise<void | null>;
-  addTotal(id: string): Promise<Order | null>;
-  subtractTotal(id: string): Promise<Order | null>;
+  addTotal(id: string, quantity: number): Promise<Order | null>;
+  subtractTotal(id: string, quantity: number): Promise<Order | null>;
   changeDelivery(id: string): Promise<Order | null>;
 }

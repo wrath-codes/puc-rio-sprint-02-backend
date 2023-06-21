@@ -57,13 +57,13 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     this.orders = this.orders.filter((order) => order.id !== id);
   }
 
-  async addTotal(id: string): Promise<Order | null> {
+  async addTotal(id: string, quantity: number): Promise<Order | null> {
     const order = this.orders.find((order) => order.id === id);
     if (!order) return null;
 
     const updatedOrder = {
       ...order,
-      total: order.total + 1,
+      total: order.total + quantity,
     } as Order;
 
     this.orders = this.orders.map((order) => {
@@ -74,13 +74,13 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     return updatedOrder;
   }
 
-  async subtractTotal(id: string): Promise<Order | null> {
+  async subtractTotal(id: string, quantity: number): Promise<Order | null> {
     const order = this.orders.find((order) => order.id === id);
     if (!order) return null;
 
     const updatedOrder = {
       ...order,
-      total: order.total - 1,
+      total: order.total - quantity,
     } as Order;
 
     this.orders = this.orders.map((order) => {
