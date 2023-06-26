@@ -1,8 +1,8 @@
 import { Dish } from '@prisma/client';
 import { DishNotFoundError } from "./errors/dish-not-found";
 import { DishesRepository } from '@/repositories/interfaces/dishes-repository';
-import { InMemoryMenusRepository } from "@/repositories/in-memory/menus-repository-in-memory";
 import { MenuNotFoundError } from './errors/menu-not-found';
+import { MenusRepository } from "@/repositories/interfaces/menus-repository";
 
 interface RemoveDishOfMenuRequest {
   menu_id: string;
@@ -16,7 +16,7 @@ interface RemoveDishOfMenuResponse {
 export class RemoveDishOfMenuUseCase {
   constructor(
     private dishesRepository: DishesRepository,
-    private menusRepository: InMemoryMenusRepository,
+    private menusRepository: MenusRepository,
   ) {}
 
   async execute({ menu_id, dish_id }: RemoveDishOfMenuRequest): Promise<RemoveDishOfMenuResponse> {
