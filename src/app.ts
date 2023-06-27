@@ -2,10 +2,12 @@ import { ZodError } from 'zod'
 import { clientsRoutes } from "./http/controllers/clients/routes"
 import { env } from './env'
 import fastify from 'fastify'
+import { menusRoutes } from "./http/controllers/menus/routes"
 
 export const app = fastify()
 
 app.register(clientsRoutes, { prefix: '/clients' })
+app.register(menusRoutes, { prefix: '/menus' })
 
 
 // Register error handler
