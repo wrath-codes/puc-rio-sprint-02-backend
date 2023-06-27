@@ -2,7 +2,6 @@ import { FastifyReply, FastifyRequest } from "fastify";
 
 import { ClientNotFoundError } from "@/use-cases/errors/client-not-found";
 import { makeDeleteClientUseCase } from "@/use-cases/factories/make-delete-client-use-case";
-import { z } from 'zod';
 
 export async function deleteClient(
   request: FastifyRequest,
