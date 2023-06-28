@@ -7,7 +7,6 @@ import { InMemoryDishesRepository } from "@/repositories/in-memory/dishes-reposi
 import { InMemoryMenusRepository } from "@/repositories/in-memory/menus-repository-in-memory";
 import { InMemoryOrdersRepository } from "@/repositories/in-memory/orders-repository-in-memory";
 import { MenuNotFoundError } from "./errors/menu-not-found";
-import exp from "constants";
 
 let dishesRepository: InMemoryDishesRepository;
 let dishOrdersRepository: DishOrdersRepositoryInMemory;

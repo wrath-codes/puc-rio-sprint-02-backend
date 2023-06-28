@@ -3,11 +3,13 @@ import { clientsRoutes } from "./http/controllers/clients/routes"
 import { env } from './env'
 import fastify from 'fastify'
 import { menusRoutes } from "./http/controllers/menus/routes"
+import { ordersRoutes } from "./http/controllers/orders/routes"
 
 export const app = fastify()
 
 app.register(clientsRoutes, { prefix: '/clients' })
 app.register(menusRoutes, { prefix: '/menus' })
+app.register(ordersRoutes, { prefix: '/orders' })
 
 
 // Register error handler

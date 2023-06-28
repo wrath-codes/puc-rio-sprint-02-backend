@@ -65,10 +65,26 @@ export class PrismaDishOrdersRepository implements DishOrdersRepository {
   }
 
   async delete(id: string): Promise<void | null> {
-    const dishOrder = await prisma.dishOrder.delete({
+    const dishOrder = await prisma.dishOrder.findFirst({
       where: { id },
     });
 
     if (!dishOrder) return null;
+
+    await prisma.dishOrder.delete({
+      where: { id },
+    });
+  }
+
+  async deleteAllByOrderId(order_id: string): Promise<void | null> {
+    const dishOrders = await prisma.dishOrder.findMany({
+      where: { order_id },
+    });
+
+    if (!dishOrders) return null;
+
+    await prisma.dishOrder.deleteMany({
+      where: { order_id },
+    });
   }
 }

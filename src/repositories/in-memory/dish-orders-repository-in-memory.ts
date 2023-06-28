@@ -53,4 +53,10 @@ export class DishOrdersRepositoryInMemory implements DishOrdersRepository {
     if (!dishOrder) return null;
     this.dishOrders = this.dishOrders.filter(dishOrder => dishOrder.id !== id);
   }
+
+  async deleteAllByOrderId(order_id: string): Promise<void | null> {
+    const dishOrders = this.dishOrders.filter(dishOrder => dishOrder.order_id === order_id);
+    if (!dishOrders) return null;
+    this.dishOrders = this.dishOrders.filter(dishOrder => dishOrder.order_id !== order_id);
+  }
 }
