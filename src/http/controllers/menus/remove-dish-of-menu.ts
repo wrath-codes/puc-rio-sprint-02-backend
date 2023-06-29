@@ -30,7 +30,7 @@ export async function removeDishOfMenu(
   catch (error) {
     if (error instanceof MenuNotFoundError) {
       return reply.status(404).send({
-        message: "Menu not found",
+        message: error.message,
       });
     }
 

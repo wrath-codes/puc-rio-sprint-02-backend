@@ -37,7 +37,7 @@ export async function editDish(
   catch (error) {
     if (error instanceof DishNotFoundError) {
       return reply.status(404).send({
-        message: 'Dish not found',
+        message: error.message,
       })
     }
     throw error

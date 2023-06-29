@@ -36,13 +36,13 @@ export async function addDishToMenu(
   } catch (error) {
     if (error instanceof MenuNotFoundError) {
       return reply.status(404).send({
-        message: "Menu not found",
+        message: error.message,
       });
     }
 
     if (error instanceof MenuHasFiveItemsError) {
       return reply.status(400).send({
-        message: "Menu has five items already",
+        message: error.message,
       });
     }
 

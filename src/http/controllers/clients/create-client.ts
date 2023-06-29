@@ -37,7 +37,7 @@ export async function createClient(
   } catch (error) {
     if (error instanceof ClientAlreadyExistsError) {
       return reply.status(409).send({
-        message: 'Client already exists',
+        message: error.message,
       })
     }
     throw error

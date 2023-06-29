@@ -1,4 +1,3 @@
-import { Order } from "@prisma/client";
 import { OrderNotFoundError } from "./errors/order-not-found";
 import { OrdersRepository } from "@/repositories/interfaces/orders-repository";
 

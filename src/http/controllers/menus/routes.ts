@@ -4,6 +4,7 @@ import { createMenu } from "./create-menu";
 import { deleteMenu } from "./delete-menu";
 import { editDish } from "./edit-dish";
 import { getDishesOnMenu } from "./get-dishes-on-menu";
+import { getMenuMetrics } from "./get-menu-metrics";
 import { removeDishOfMenu } from "./remove-dish-of-menu";
 
 export async function menusRoutes(app: FastifyInstance) {
@@ -13,4 +14,5 @@ export async function menusRoutes(app: FastifyInstance) {
   app.delete('/dishes/remove/:menu_id', removeDishOfMenu)
   app.delete('/delete/:menu_id', deleteMenu)
   app.get('/dishes/list/:menu_id', getDishesOnMenu)
+  app.get('/metrics/:menu_id', getMenuMetrics)
 }

@@ -24,12 +24,12 @@ export async function getClientInfo(
   } catch (error) {
     if (error instanceof ClientNotFoundError) {
       return reply.status(404).send({
-        message: 'Client not found',
+        message: error.message,
       })
     }
     if (error instanceof ClienWithNoAddressError) {
       return reply.status(404).send({
-        message: 'Client has no address',
+        message: error.message,
       })
     }
     throw error

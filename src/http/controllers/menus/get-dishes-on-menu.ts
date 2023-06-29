@@ -23,7 +23,7 @@ export async function getDishesOnMenu(
   } catch (error) {
     if (error instanceof MenuNotFoundError) {
       return reply.status(404).send({
-        message: "Menu not found",
+        message: error.message,
       });
     }
 

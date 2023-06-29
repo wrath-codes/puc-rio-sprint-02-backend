@@ -15,11 +15,19 @@ interface DishWithQuantity extends Dish {
   quantity: number;
 }
 
+interface OrderWithDishes extends Order {
+  dishes: DishWithQuantity[];
+}
+
+interface ClientWithOrders extends Client {
+  orders: OrderWithDishes[];
+}
+
 interface GetOrderMetricsMenuResponse {
   total_orders: number;
   total_quantity: number;
   orders_by_dish: DishWithQuantity[];
-  clients: Client[];
+  clients: ClientWithOrders[];
 }
 
 export class GetOrderMetricsMenu {
@@ -93,15 +101,31 @@ export class GetOrderMetricsMenu {
 
     total_orders = unique_orders.length;
 
-    let clients = [] as Client[];
+    let clients = [] as ClientWithOrders[];
+    let clients_with_orders = [] as ClientWithOrders[];
+    let orders_with_dishes = [] as OrderWithDishes[];
 
     await Promise.all(
       unique_orders.map(async (order) => {
         const client = await this.clientsRepository.findById(order.client_id);
         if (!client) return;
-        clients.push(client);
+
+        const dishOrders = await this.dishOrdersRepository.findByOrderId(order.id);
+        const dishes = await Promise.all(
+          dishOrders.map(async (dishOrder) => {
+            const dish = await this.dishesRepository.findById(dishOrder.dish_id);
+            if (!dish) return;
+            return { ...dish, quantity: dishOrder.quantity };
+          }
+          )) as DishWithQuantity[];
+        if (!dishes) return;
+        orders_with_dishes.push({ ...order, dishes });
+
+        clients_with_orders.push({ ...client, orders: orders_with_dishes });
       })
     );
+
+    clients = clients_with_orders as ClientWithOrders[];
 
     return { total_orders, total_quantity, orders_by_dish, clients };
   }

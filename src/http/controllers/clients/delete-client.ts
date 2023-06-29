@@ -22,7 +22,7 @@ export async function deleteClient(
   } catch (error) {
     if (error instanceof ClientNotFoundError) {
       return reply.status(404).send({
-        message: 'Client not found',
+        message: error.message,
       })
     }
     throw error
