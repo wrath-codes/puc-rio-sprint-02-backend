@@ -1,6 +1,7 @@
 import { Menu, Prisma } from '@prisma/client';
 
 import { MenusRepository } from '../interfaces/menus-repository';
+import dayjs from "dayjs";
 import { randomUUID } from 'node:crypto';
 
 export class InMemoryMenusRepository implements MenusRepository {
@@ -35,6 +36,15 @@ export class InMemoryMenusRepository implements MenusRepository {
     return this.menus;
   }
 
+  async findLatest(): Promise<Menu | null> {
+    const menu = this.menus.sort((a, b) => {
+      return dayjs(b.created_at).unix() - dayjs(a.created_at).unix();
+    })[0];
+
+    if (!menu) return null;
+
+    return menu;
+  }
 }
 
 

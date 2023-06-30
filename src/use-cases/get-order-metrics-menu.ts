@@ -130,6 +130,3 @@ export class GetOrderMetricsMenu {
     return { total_orders, total_quantity, orders_by_dish, clients };
   }
 }
-
-
-

@@ -1,11 +1,18 @@
 import { ZodError } from 'zod'
 import { clientsRoutes } from "./http/controllers/clients/routes"
+import cors from '@fastify/cors'
 import { env } from './env'
 import fastify from 'fastify'
 import { menusRoutes } from "./http/controllers/menus/routes"
 import { ordersRoutes } from "./http/controllers/orders/routes"
 
 export const app = fastify()
+
+app.register(cors, {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+})
 
 app.register(clientsRoutes, { prefix: '/clients' })
 app.register(menusRoutes, { prefix: '/menus' })

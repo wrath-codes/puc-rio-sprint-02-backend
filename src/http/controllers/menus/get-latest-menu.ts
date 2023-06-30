@@ -1,25 +1,23 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
 import { MenuNotFoundError } from "@/use-cases/errors/menu-not-found";
-import { makeGetDishesOnMenuUseCase } from "@/use-cases/factories/make-get-dishes-on-menu-use-case";
+import { makeGetLatestMenuUseCase } from "@/use-cases/factories/make-get-latest-menu-use-case";
 
-export async function getDishesOnMenu(
+export async function getLatestMenu(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const { menu_id } = request.params as { menu_id: string };
 
   try {
-    const getDishesOnMenuUseCase = makeGetDishesOnMenuUseCase();
+    const getLatestMenuUseCase = makeGetLatestMenuUseCase();
 
-    const { dishes } = await getDishesOnMenuUseCase.execute({
-      menu_id,
-    });
+    const { menu } = await getLatestMenuUseCase.execute();
 
     return reply.status(200).send({
-      dishes,
+      menu,
     });
-  } catch (error) {
+  }
+  catch (error) {
     if (error instanceof MenuNotFoundError) {
       return reply.status(404).send({
         message: error.message,
@@ -29,3 +27,4 @@ export async function getDishesOnMenu(
     throw error;
   }
 }
+

@@ -41,4 +41,16 @@ export class PrismaMenusRepository implements MenusRepository {
 
     return menus;
   }
+
+  async findLatest(): Promise<Menu | null> {
+    const menu = await prisma.menu.findFirst({
+      orderBy: {
+        created_at: 'desc',
+      },
+    });
+
+    if (!menu) return null;
+
+    return menu;
+  }
 }
